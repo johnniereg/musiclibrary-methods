@@ -24,16 +24,16 @@ var library = {
   printPlaylists: function () {
     var thePlaylists = this.playlists;
     for (var eachList in thePlaylists) {
-    var listItems = thePlaylists[eachList];
-    var numOfTracks = listItems.tracks.length;
-    console.log(listItems["id"] + ": " + listItems["name"] + " - " + numOfTracks + " tracks");
+      var listItems = thePlaylists[eachList];
+      var numOfTracks = listItems.tracks.length;
+      console.log(listItems["id"] + ": " + listItems["name"] + " - " + numOfTracks + " tracks");
     }
   },
   printTracks: function () {
     var allTracks = this.tracks;
     for (var track in allTracks) {
-    var tracks = allTracks[track];
-    console.log(tracks["id"] + ": " + tracks["name"] + " by " + tracks["artist"] + " (" + tracks["album"] + ")");
+      var tracks = allTracks[track];
+      console.log(tracks["id"] + ": " + tracks["name"] + " by " + tracks["artist"] + " (" + tracks["album"] + ")");
     }
   },
   printPlaylist: function (playlistId) {
@@ -82,11 +82,10 @@ var library = {
     playListInfo["name"] = name;
     playListInfo["tracks"] = [];
     thePlaylists[playID] = playListInfo;
-  }
+  },
 };
 
-library.addPlaylist ("newplaylist");
-console.log(library.playlists);
+
 
 // STRETCH:
 // given a query string string, prints a list of tracks
@@ -95,5 +94,45 @@ console.log(library.playlists);
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 
 var printSearchResults = function(query) {
+  var theSearch = query.toLowerCase();
+  var allTracks = library.tracks;
+  var results = [];
+
+  // Searches the library and puts the track IDs into an array.
+  for (var tracks in allTracks) {
+    var track = allTracks[tracks];
+    if (track.name.toLowerCase().search(theSearch) >= 0) {
+      // console.log("it's in the name");
+      results.push(track.id);
+    }
+    else if (track.artist.toLowerCase().search(theSearch) >= 0) {
+      // console.log("it's in the artist");
+      results.push(track.id);
+    }
+    else if (track.album.toLowerCase().search(theSearch) >= 0) {
+      // console.log("it's in the album");
+      results.push(track.id);
+    }
+    else {
+      continue;
+    }
+  }
+
+  // Print something for each item in the array.
+
+  if (results.length > 0) {
+    results.forEach(function (trackid, index) {
+      var theTrackFound = allTracks[trackid];
+      console.log(theTrackFound["id"] + ": " + theTrackFound["name"] + " by " + theTrackFound["artist"] + " (" + theTrackFound["album"] + ")");
+    });
+  }
+  else {
+    console.log("We didn't find anything.")
+  }
 
 };
+
+printSearchResults("COD");
+printSearchResults("ode");
+
+
